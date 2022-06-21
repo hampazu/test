@@ -1,5 +1,7 @@
 import React from "react";
 import "./AutoCompleteText.css";
+import CourseSheet from "./CourseSheet";
+import courses from "./listCourses";
 
 export default class AutoCompleteText extends React.Component {
   state = {
@@ -28,13 +30,26 @@ export default class AutoCompleteText extends React.Component {
     }
   };
 
+  // onTextChanged = (e) => {
+  //   const { items } = this.props;
+  //   const value = e.target.value;
+  //   let suggesions = [];
+  //   if (value.length > 0) {
+  //     const regex = new RegExp(`${value}`, "i");
+  //     suggesions = items.sort().filter((c) => regex.test(c.title));
+  //   }
+  //   this.setState(() => ({ suggesions, text: value, SelectedIndex: 0 }));
+  // };
+  
   onTextChanged = (e) => {
     const { items } = this.props;
+    const { semester } = this.props;
+    let filteredItems = items.filter((c) => c.semester === semester);
     const value = e.target.value;
     let suggesions = [];
     if (value.length > 0) {
       const regex = new RegExp(`${value}`, "i");
-      suggesions = items.sort().filter((c) => regex.test(c.title));
+      suggesions = filteredItems.sort().filter((c) => regex.test(c.title));
     }
     this.setState(() => ({ suggesions, text: value, SelectedIndex: 0 }));
   };
